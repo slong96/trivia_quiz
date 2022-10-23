@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Movie Trivia Game</title>
+    <!--bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">    <script href="countries.js"></script>
+    <!--google font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cabin&family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+    <!--stylesheet-->
+    <link href="styles.css" rel="stylesheet">
+    <!--javascript-->
+    <script async defer src="script.js"></script>
+  </head>
+
+  <body class="flex">
+    <div class="container">
+
+        <!--title-->
+        <div class="title">
+           <h1>Movie Trivia Quiz</h1>
+        </div>
+
+        <!--score-->
+        <div class="score-container">
+            <!--for javascript-->
+            <span>Score: </span>
+            <span id="correct-score"></span> /
+            <span id="total-questions"></span>
+        </div>
+
+        <!--quiz body-->
+        <div class="quiz-container">
+            <h3 class="quiz-question" id="question">question goes here</h3>
+
+            <!--answer options list-->
+            <ul class="answer-options">
+                <li>answer</li>
+                <li>answer</li>
+                <li>answer</li>
+                <li>answer</li>
+            </ul>
+
+            <!--display results-->
+            <div class="results-container" id="results">
+              <!--display results here-->
+            </div>
+
+        </div>
+
+        <!--bottom of quiz body-->
+        <div class="quiz-bottom">
+            <button type="button" id="next">Next</button>
+        </div>
+
+    </div>
+  </body>
+</html>
