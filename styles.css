@@ -96,6 +96,10 @@ body {
     transform: scale(0.90);
 }
 
+#play-again {
+    display: none;
+}
+
 .results-container {
     text-align: center;
     padding: 20px;

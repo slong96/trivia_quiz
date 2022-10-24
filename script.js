@@ -5,8 +5,9 @@ let correctScore = document.getElementById('correct-score')
 let totalQuestions = document.getElementById('total-questions')
 let resultsElement = document.getElementById('results')
 let nextButton = document.getElementById('next')
+let playAgainButton = document.getElementById('play-again')
 
-// variables
+// global variables
 let correctAnswer = ''
 let counter = 0
 let score = 0
@@ -19,9 +20,9 @@ startQuiz()
 function startQuiz() {
     // fetch api data
     fetchData()
-    // display score out of 10
+    // HTML content - display score out of 10
     totalQuestions.textContent = maxQuestions
-    // display correct score out of 10
+    // HTML content - display correct score out of 10
     correctScore.textContent = score
 }
 
@@ -52,8 +53,8 @@ function currentQuestionAnswers(data) {
     // next button is disabled
     nextButton.disabled = true
     // show first question using the counter variable
-    questionElement.innerHTML = data[counter].question
-    // have the correctAnswer varible equal to api correct answer
+    questionElement.innerHTML = `${counter + 1 + '. ' + data[counter].question}`
+    // have the global correctAnswer varible equal to api correct answer
     correctAnswer = data[counter].correct_answer
     // incorrectAnswers variable equal to list of incorrect answers
     let incorrectAnswers = data[counter].incorrect_answers
@@ -62,7 +63,7 @@ function currentQuestionAnswers(data) {
     // splice - have correct answer in random position of incorrect answers, remove 0
     optionsList.splice(Math.floor(Math.random() * (incorrectAnswers.length)), 0, correctAnswer)
     // answer options HTML list element equals to array map to show the list. .join removes the comma
-    answerOptions.innerHTML = `${optionsList.map( (option) => `<li><span>${option}</span></li>`).join('')}`
+    answerOptions.innerHTML = `${optionsList.map( option => `<li>${option}</li>`).join('')}`
     // calling function
     answerSelection()
     // to show current question and correct answer
@@ -71,14 +72,14 @@ function currentQuestionAnswers(data) {
 }
 
 function nextQuestionAnswers(data) {
-    // event listener for next button when clicked
-    nextButton.addEventListener('click', () => {
+    // get element by ID 'next', onclick - the following happens:
+    document.getElementById('next').onclick = function() {
         // next button is disabled
         nextButton.disabled = true
         // have counter go up by 1
         counter++
         // show next question using the counter variable
-        questionElement.innerHTML = data[counter].question
+        questionElement.innerHTML = `${counter + 1 + '. ' + data[counter].question}`
         // have the correctAnswer varible equal to api correct answer
         correctAnswer = data[counter].correct_answer
         // incorrectAnswers variable equal to list of incorrect answers
@@ -87,17 +88,18 @@ function nextQuestionAnswers(data) {
         // splice - have correct answer in random position of incorrect answers, remove 0
         optionsList.splice(Math.floor(Math.random() * (incorrectAnswers.length)), 0, correctAnswer)
         // answer options HTML list element equals to array map to show the list. .join removes the comma
-        answerOptions.innerHTML = `${optionsList.map( (option) => `<li>${option}</li>`).join('')}`
+        answerOptions.innerHTML = `${optionsList.map( option => `<li>${option}</li>`).join('')}`
         // calling function
         answerSelection()
         // to show next question and correct answer
         console.log(questionElement.innerHTML)
         console.log(correctAnswer)
-    })
+
+    }
 }
 
 function answerSelection() {
-    // select all items in list
+    // for loop to select all items in list
     answerOptions.querySelectorAll('li').forEach( function(option) {
         // event listener when item is clicked
         option.addEventListener('click', () => {
@@ -140,16 +142,45 @@ function checkAnswer() {
 function checkCount() {
     // questionCount variable add by 1
     questionCount++
+    // calling function
+    setCount()
+    // if questionCount is equal to maxQuestion (10)
+    if (questionCount == maxQuestions) {
+        // have resultsElement show score and text
+        resultsElement.innerHTML += ` <br><b> Your score is ${score}.</b>`
+        // next button will not display
+        nextButton.style.display = 'none'
+        // play again button will display
+        playAgainButton.style.display = 'block'
+        // calling function
+        restartQuiz()
+    }
+}
+
+function setCount() {
     // have text content of totalQuestions HTML element equal to maxQuestions variable
     totalQuestions.textContent = maxQuestions
     // have text content of correctScore HTML element equal to score variable
     correctScore.textContent = score
     // if questionCount variable equals to maxQuestions variable
-    if (questionCount == maxQuestions) {
-        // have resultsElement show score and text
-        resultsElement.innerHTML += ` <br><b> Your score is ${score}.</b> 
-                                    <br> Refresh page to play again.`
-        // next button will not display
-        nextButton.style.display = 'none'
+}
+
+function restartQuiz() {
+    // get element by ID 'play-again', onclick - the following happens:
+    document.getElementById('play-again').onclick = function() {
+        // reset global variables
+        correctAnswer = ''
+        counter = 0
+        maxQuestions = 10
+        questionCount = 0
+        score = 0
+        // next button will display
+        nextButton.style.display = 'block'
+        // play again button will not display
+        playAgainButton.style.display = 'none'
+        // calling function
+        setCount()
+        // calling function
+        startQuiz()
     }
 }
